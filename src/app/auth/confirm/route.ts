@@ -4,7 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url)
   const code = searchParams.get('code')
-  let next = searchParams.get('next') ?? '/private'
+  let next = searchParams.get('next') ?? '/'
   if (!next.startsWith('/')) {
     next = '/'
   }
