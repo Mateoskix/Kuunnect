@@ -11,6 +11,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-complement: var(--complement);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -20,4 +23,17 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-mono), ui-monospace, SFMono-Regular, 
                'SF Mono', Menlo, Consolas, monospace;
+}
+
+/* Custom styled-box component */
+.styled-box {
+  @apply bg-white/90 backdrop-blur-sm border border-gray-200/60 rounded-xl shadow-lg shadow-gray-900/10 p-6 transition-all duration-300 hover:shadow-xl hover:shadow-gray-900/15 hover:border-gray-300/80 hover:-translate-y-0.5;
+}
+
+.page-title {
+  @apply text-3xl md:text-5xl lg:text-7xl font-bold text-center;
+}
+
+.styled-button {
+  @apply bg-primary text-white px-4 py-2 rounded-md hover:bg-primary/80 hover:text-complement hover:cursor-pointer transition-all duration-300;
 }

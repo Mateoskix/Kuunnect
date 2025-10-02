@@ -1,9 +1,8 @@
 import { signInWithGithub } from './actions'
+import Login from '@/components/Auth/Login/Login'
 
 export default function LoginPage() {
   return (
-    <form>
-      <button formAction={signInWithGithub}>Login with GitHub</button>
-    </form>
+    <Login action={signInWithGithub} />
   )
 }
