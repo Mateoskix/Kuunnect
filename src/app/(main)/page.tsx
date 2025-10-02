@@ -1,7 +1,7 @@
+import MainPage from "@/components/mainPage/home";
+
 export default function Home() {
   return (
-    <main>
-      <h1 className="">Hello World!</h1>
-    </main>
+    <MainPage/>
   );
 }
