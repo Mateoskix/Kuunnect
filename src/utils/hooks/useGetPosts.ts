@@ -9,6 +9,7 @@ interface UseGetPostsResult {
   isLoadingMore: boolean;
   hasMore: boolean;
   loadMore: () => void;
+  refetch: () => void;
   error: string | null;
 }
 
@@ -63,5 +64,12 @@ export const useGetPosts = (limit: number = 20): UseGetPostsResult => {
     }
   }, [isLoadingMore, hasMore, posts.length, fetchPosts]);
 
-  return { posts, isLoading, isLoadingMore, hasMore, loadMore, error };
+  const refetch = useCallback(() => {
+    setPosts([]);
+    setIsLoading(true);
+    setHasMore(true);
+    fetchPosts(0, false);
+  }, [fetchPosts]);
+
+  return { posts, isLoading, isLoadingMore, hasMore, loadMore, refetch, error };
 };

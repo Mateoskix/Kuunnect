@@ -5,7 +5,7 @@ import CreatePost from "./components/createPost/createPost";
 import { useGetPosts } from "@/utils/hooks/useGetPosts";
 
 const MainPage = () => {
-  const { posts, isLoading, isLoadingMore, hasMore, loadMore, error } = useGetPosts(20);
+  const { posts, isLoading, isLoadingMore, hasMore, loadMore, error, refetch } = useGetPosts(20);
   const observerRef = useRef<HTMLDivElement>(null);
 
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
@@ -52,7 +52,7 @@ const MainPage = () => {
 
   return (
     <div className="grid grid-cols-1 gap-16 p-4 max-w-7xl mx-auto">
-      <CreatePost />
+      <CreatePost onPostCreated={refetch} />
       {posts.map((post) => (
         <Post key={post.id} {...post} />
       ))}

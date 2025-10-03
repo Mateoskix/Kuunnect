@@ -1,37 +1,91 @@
 "use client";
 import React, { useRef } from "react";
 import { useGetUser } from "@/utils/hooks/useGetUser";
+import { useCreatePost } from "@/utils/hooks/useCreatePost";
 import { Paperclip } from "lucide-react";
-const CreatePost = () => {
+
+interface CreatePostProps {
+  onPostCreated?: () => void;
+}
+
+const CreatePost = ({ onPostCreated }: CreatePostProps) => {
   const user = useGetUser();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  
+  const {
+    title,
+    content,
+    setTitle,
+    setContent,
+    isLoading,
+    error,
+    success,
+    createPost,
+  } = useCreatePost(onPostCreated);
 
   const autoResize = () => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
     }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await createPost();
   };
 
   if (!user) {
     return <></>;
   }
+
   return (
     <div className="styled-box">
-      <div className="flex flex-col space-y-2">
-        <input className="w-full ring-0 border-0 focus:outline-none" type="text" placeholder="Title" />
-        <textarea 
+      <form onSubmit={handleSubmit} className="flex flex-col space-y-2">
+        <input
+          className="w-full ring-0 border-0 focus:outline-none"
+          type="text"
+          placeholder="Title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          disabled={isLoading}
+        />
+        <textarea
           ref={textareaRef}
           className="w-full ring-0 border-0 focus:outline-none resize-none overflow-hidden"
           placeholder="What's on your mind?"
           rows={1}
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           onInput={autoResize}
+          disabled={isLoading}
         />
+        
+        {error && (
+          <div className="text-red-500 text-sm">{error}</div>
+        )}
+        
+        {success && (
+          <div className="text-green-500 text-sm">Post created successfully!</div>
+        )}
+        
         <div className="flex flex-row justify-end gap-2">
-          <button className="styled-button">Create</button>
-          <button className="styled-button"><Paperclip size={15} /></button>
+          <button 
+            type="submit" 
+            className="styled-button" 
+            disabled={isLoading || !title.trim() || !content.trim()}
+          >
+            {isLoading ? "Creating..." : "Create"}
+          </button>
+          <button 
+            type="button" 
+            className="styled-button"
+            disabled={isLoading}
+          >
+            <Paperclip size={15} />
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
