@@ -55,8 +55,6 @@ export const useCreatePost = (onSuccess?: () => void): UseCreatePostResult => {
       if (data) {
         setSuccess(true);
         resetForm();
-        
-        // Call optional success callback (e.g., refresh posts list)
         if (onSuccess) {
           onSuccess();
         }
