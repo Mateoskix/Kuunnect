@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import { useGetUser } from "@/utils/hooks/useGetUser";
 import { useCreatePost } from "@/utils/hooks/useCreatePost";
 import { Paperclip } from "lucide-react";
+import Image from "next/image";
 
 interface CreatePostProps {
   onPostCreated?: () => void;
@@ -21,6 +22,8 @@ const CreatePost = ({ onPostCreated }: CreatePostProps) => {
     error,
     success,
     createPost,
+    image,
+    setImage,
   } = useCreatePost(onPostCreated);
 
   const autoResize = () => {
@@ -60,6 +63,11 @@ const CreatePost = ({ onPostCreated }: CreatePostProps) => {
           onInput={autoResize}
           disabled={isLoading}
         />
+        {image && (
+          <div className="w-48 h-48 overflow-hidden rounded-t-xl styled-box">
+            <Image src={URL.createObjectURL(image)} alt="Post image" fill />
+          </div>
+        )}
         
         {error && (
           <div className="text-red-500 text-sm">{error}</div>
@@ -81,6 +89,18 @@ const CreatePost = ({ onPostCreated }: CreatePostProps) => {
             type="button" 
             className="styled-button"
             disabled={isLoading}
+            onClick={() => {
+              const fileInput = document.createElement('input');
+              fileInput.type = 'file';
+              fileInput.accept = 'image/*';
+              fileInput.onchange = (e) => {
+                const file = (e.target as HTMLInputElement).files?.[0];
+                if (file) {
+                  setImage(file);
+                }
+              };
+              fileInput.click();
+            }}
           >
             <Paperclip size={15} />
           </button>

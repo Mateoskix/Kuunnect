@@ -2,6 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import { formatDate } from '@/utils/functions/formatDate';
 import { PostProps } from '@/utils/types';
+import { getImageUrl } from '@/utils/functions/getImageUrl';
 
 const Post = ({ id, title, content, image = undefined, created_at, userId }: PostProps) => {
   return (
@@ -10,7 +11,7 @@ const Post = ({ id, title, content, image = undefined, created_at, userId }: Pos
         {image && (
           <div className='relative w-full h-48 overflow-hidden rounded-t-xl'>
             <Image 
-              src={image} 
+              src={getImageUrl(image)} 
               alt={title} 
               fill
               className='object-cover'
