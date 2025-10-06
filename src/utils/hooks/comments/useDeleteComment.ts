@@ -13,6 +13,22 @@ export const useDeleteComment = () => {
 
     try {
       const supabase = createClient();
+      const {data: commentData, error: commentError} = await supabase
+        .from("comments")
+        .select("*")
+        .eq("id", commentId)
+        .single();
+      if (commentError) {
+        throw new Error(commentError.message);
+      }
+      if (commentData.image) {
+        const { data: mediaData, error: mediaError } = await supabase.storage
+          .from("posts_images")
+          .remove([commentData.image]);
+        if (mediaError) {
+          throw new Error(mediaError.message);
+        }
+      }
       const { data, error } = await supabase
         .from("comments")
         .delete()

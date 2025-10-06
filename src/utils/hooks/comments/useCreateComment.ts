@@ -5,7 +5,7 @@ export const useCreateComment = (post_id: string, onSuccess?: () => void) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [content, setContent] = useState("");
-
+  const [image, setImage] = useState<File | null>(null);
   const createComment = async () => {
     setIsLoading(true);
     setError(null);
@@ -23,10 +23,19 @@ export const useCreateComment = (post_id: string, onSuccess?: () => void) => {
       if (!user) {
         throw new Error("You must be logged in to create a comment");
       }
-
+      let imagePath = null;
+      if (image) {
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("posts_images")
+          .upload(`${user.id}/${Date.now()}_${image.name}`, image);
+        if (uploadError) {
+          throw new Error(uploadError.message);
+        }
+        imagePath = uploadData.path;
+      }
       const { data, error } = await supabase
         .from("comments")
-        .insert({ post_id: post_id, content: content.trim(), user_id: user?.id })
+        .insert({ post_id: post_id, content: content.trim(), user_id: user?.id, image: imagePath })
         .select()
         .single();
 
@@ -38,6 +47,7 @@ export const useCreateComment = (post_id: string, onSuccess?: () => void) => {
         if (onSuccess) {
           onSuccess();
           setContent("");
+          setImage(null);
         }
       }
     } catch (error) {
@@ -53,5 +63,7 @@ export const useCreateComment = (post_id: string, onSuccess?: () => void) => {
     createComment,
     content,
     setContent,
+    image,
+    setImage,
   };
 };

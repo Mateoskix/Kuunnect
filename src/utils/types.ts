@@ -16,4 +16,5 @@ export type CommentProps = {
     user_id: string;
     post_id: string;
     onCommentDeleted?: () => void;
+    image?: string;
 }

@@ -1,14 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { formatDate } from "@/utils/functions/formatDate";
 import { CommentProps } from "@/utils/types";
 import { useGetUser } from "@/utils/hooks/user/useGetUser";
 import { Trash } from "lucide-react";
 import { useDeleteComment } from "@/utils/hooks/comments/useDeleteComment";
+import Image from "next/image";
+import { getImageUrl } from "@/utils/functions/getImageUrl";
+import ImageModal from "@/components/shared/imageModal/imageModal";
 
-const Comment = ({ content, created_at, user_id, id, onCommentDeleted }: CommentProps) => {
+const Comment = ({ content, created_at, user_id, id, onCommentDeleted, image = undefined }: CommentProps) => {
   const user = useGetUser();
   const { isLoading, error, success, deleteComment } = useDeleteComment();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   useEffect(() => {
     if (success && onCommentDeleted) {
       onCommentDeleted();
@@ -41,7 +45,18 @@ const Comment = ({ content, created_at, user_id, id, onCommentDeleted }: Comment
         <p className="text-gray-700 leading-relaxed break-all text-sm">
           {content}
         </p>
+        {image && (
+          <div className="w-48 h-48 overflow-hidden rounded-t-xl styled-box" onClick={() => setIsModalOpen(true)}>
+            <Image src={getImageUrl(image)} alt="Comment image" fill />
+          </div>
+        )}
       </div>
+      <ImageModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        src={image ? getImageUrl(image) : ""}
+        alt={content}
+      />
     </div>
   );
 };
