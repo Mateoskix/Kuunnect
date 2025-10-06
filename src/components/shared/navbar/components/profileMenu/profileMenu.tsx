@@ -2,8 +2,8 @@ import { LogOut, User, FileText } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import Image from "next/image";
-import { useCurrentUserImage } from "@/utils/hooks/useCurrentUserImage";
-import { useGetUser } from "@/utils/hooks/useGetUser";
+import { useCurrentUserImage } from "@/utils/hooks/user/useCurrentUserImage";
+import { useGetUser } from "@/utils/hooks/user/useGetUser";
 import { createClient } from "@/utils/supabase/client";
 
 async function signOut() {
