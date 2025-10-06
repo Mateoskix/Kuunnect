@@ -18,6 +18,7 @@ const Post = ({
   image = undefined,
   created_at,
   user_id,
+  profiles = undefined,
 }: PostProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { success, deletePost } = useDeletePosts();
@@ -49,7 +50,11 @@ const Post = ({
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-light text-gray-900 leading-tight">
               {title}
+              <span className="text-sm text-gray-500 font-light ml-2">
+                {profiles?.username}
+              </span>
             </h3>
+
             <span className="text-sm text-gray-500 font-light">
               {formatDate(created_at)}
               {user?.id === user_id && (
@@ -66,7 +71,7 @@ const Post = ({
           </div>
           <p className="text-gray-700 leading-relaxed break-all">{content}</p>
         </div>
-        
+
         <CreateComment post_id={id} onCommentCreated={refetch} />
 
         {comments.length > 0 && (
@@ -74,7 +79,11 @@ const Post = ({
             <div className="border-t border-gray-200 pt-3">
               <div className="space-y-3">
                 {comments.map((comment) => (
-                  <Comment key={comment.id} {...comment} onCommentDeleted={refetch} />
+                  <Comment
+                    key={comment.id}
+                    {...comment}
+                    onCommentDeleted={refetch}
+                  />
                 ))}
                 {hasMore && (
                   <button
@@ -86,7 +95,6 @@ const Post = ({
                     View More Comments
                   </button>
                 )}
-
               </div>
             </div>
           </div>

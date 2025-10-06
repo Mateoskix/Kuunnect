@@ -66,12 +66,5 @@ export const useGetUserPosts = (userId: string, limit: number = 20): UseGetUserP
     }
   }, [isLoadingMore, hasMore, posts.length, fetchPosts]);
 
-  const refetch = useCallback(() => {
-    setPosts([]);
-    setIsLoading(true);
-    setHasMore(true);
-    fetchPosts(0, false);
-  }, [fetchPosts]);
-
   return { posts, isLoading, isLoadingMore, hasMore, loadMore, error };
 };

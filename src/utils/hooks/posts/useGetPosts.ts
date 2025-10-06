@@ -27,7 +27,7 @@ export const useGetPosts = (limit: number = 20): UseGetPostsResult => {
 
       const { data, error: fetchError } = await supabase
         .from("posts")
-        .select("*")
+        .select("*, profiles(username)")
         .order("created_at", { ascending: false })
         .range(offset, offset + limit - 1);
 

@@ -23,7 +23,7 @@ export const useGetComments = (postId: string, limit: number = 3): UseGetComment
 
       const { data, error: fetchError } = await supabase
         .from("comments")
-        .select("*")
+        .select("*, profiles(username)")
         .eq("post_id", postId)
         .order("created_at", { ascending: false })
         .range(offset, offset + limit + 1);
