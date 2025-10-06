@@ -13,6 +13,27 @@ export const useDeletePosts = () => {
 
     try {
       const supabase = createClient();
+      const {data: postData, error: postError} = await supabase
+        .from("posts")
+        .select("*")
+        .eq("id", postId)
+        .single();
+
+      if (postError) {
+        throw new Error(postError.message);
+      }
+
+      if (postData.image) {
+        console.log(postData.image);
+        const { data: mediaData, error } = await supabase.storage
+          .from("posts_images")
+          .remove([postData.image]);
+        console.log(mediaData);
+        if (error) {
+          throw new Error(error.message);
+        }
+      }
+
       const { data, error: deleteError} = await supabase
         .from("posts")
         .delete()
