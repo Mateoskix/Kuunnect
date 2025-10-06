@@ -53,7 +53,7 @@ const ProfileMenu = () => {
       {isProfileOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-200/60 py-2 z-50">
           <Link
-            href="/my-posts"
+            href="/myposts"
             className="flex items-center space-x-2 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors duration-200"
             onClick={() => setIsProfileOpen(false)}
           >

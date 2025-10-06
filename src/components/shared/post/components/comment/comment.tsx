@@ -8,7 +8,7 @@ import Image from "next/image";
 import { getImageUrl } from "@/utils/functions/getImageUrl";
 import ImageModal from "@/components/shared/imageModal/imageModal";
 
-const Comment = ({ content, created_at, user_id, id, onCommentDeleted, image = undefined }: CommentProps) => {
+const Comment = ({ content, created_at, user_id, id, onCommentDeleted, image = undefined, profiles = undefined }: CommentProps) => {
   const user = useGetUser();
   const { isLoading, error, success, deleteComment } = useDeleteComment();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +25,7 @@ const Comment = ({ content, created_at, user_id, id, onCommentDeleted, image = u
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <span className="text-sm text-gray-600 font-medium">
-              USER
+              {profiles?.username}
             </span>
           </div>
           <span className="text-xs text-gray-500 font-light">

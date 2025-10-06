@@ -3,17 +3,16 @@ import { createClient } from "@/utils/supabase/client";
 import { useCallback, useEffect, useState } from "react";
 import { PostProps } from "@/utils/types";
 
-interface UseGetPostsResult {
+interface UseGetUserPostsResult {
   posts: PostProps[];
   isLoading: boolean;
   isLoadingMore: boolean;
   hasMore: boolean;
   loadMore: () => void;
-  refetch: () => void;
   error: string | null;
 }
 
-export const useGetPosts = (limit: number = 20): UseGetPostsResult => {
+export const useGetUserPosts = (userId: string, limit: number = 20): UseGetUserPostsResult => {
   const [posts, setPosts] = useState<PostProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -27,7 +26,8 @@ export const useGetPosts = (limit: number = 20): UseGetPostsResult => {
 
       const { data, error: fetchError } = await supabase
         .from("posts")
-        .select("*, profiles(username)")
+        .select("*")
+        .eq("user_id", userId)
         .order("created_at", { ascending: false })
         .range(offset, offset + limit - 1);
 
@@ -50,12 +50,14 @@ export const useGetPosts = (limit: number = 20): UseGetPostsResult => {
       setIsLoading(false);
       setIsLoadingMore(false);
     },
-    [limit]
+    [userId, limit]
   );
 
   useEffect(() => {
-    fetchPosts(0, false);
-  }, []);
+    if (userId) {
+      fetchPosts(0, false);
+    }
+  }, [userId, fetchPosts]);
 
   const loadMore = useCallback(() => {
     if (!isLoadingMore && hasMore) {
@@ -64,12 +66,5 @@ export const useGetPosts = (limit: number = 20): UseGetPostsResult => {
     }
   }, [isLoadingMore, hasMore, posts.length, fetchPosts]);
 
-  const refetch = useCallback(() => {
-    setPosts([]);
-    setIsLoading(true);
-    setHasMore(true);
-    fetchPosts(0, false);
-  }, [fetchPosts]);
-
-  return { posts, isLoading, isLoadingMore, hasMore, loadMore, refetch, error };
+  return { posts, isLoading, isLoadingMore, hasMore, loadMore, error };
 };

@@ -1,4 +1,5 @@
 import { useCreateComment } from "@/utils/hooks/comments/useCreateComment";
+import { useGetUser } from "@/utils/hooks/user/useGetUser";
 import { Paperclip } from "lucide-react";
 import Image from "next/image";
 import React from "react";
@@ -13,6 +14,10 @@ const CreateComment = ({ post_id, onCommentCreated }: CreateCommentProps) => {
     post_id,
     onCommentCreated
   );
+  const user = useGetUser();
+  if (!user) {
+    return null;
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

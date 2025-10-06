@@ -6,6 +6,7 @@ export type PostProps = {
     created_at: string;
     updated_at?: string;
     user_id: string;
+    profiles?: ProfileProps;
 }
 
 export type CommentProps = {
@@ -17,4 +18,10 @@ export type CommentProps = {
     post_id: string;
     onCommentDeleted?: () => void;
     image?: string;
+    profiles?: ProfileProps;
+}
+
+export type ProfileProps = {
+    id?: string;
+    username: string;
 }
