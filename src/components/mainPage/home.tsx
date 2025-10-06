@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useRef } from "react";
 import Post from "../shared/post/post";
 import CreatePost from "./components/createPost/createPost";
-import { useGetPosts } from "@/utils/hooks/useGetPosts";
+import { useGetPosts } from "@/utils/hooks/posts/useGetPosts";
 
 const MainPage = () => {
   const { posts, isLoading, isLoadingMore, hasMore, loadMore, error, refetch } = useGetPosts(20);

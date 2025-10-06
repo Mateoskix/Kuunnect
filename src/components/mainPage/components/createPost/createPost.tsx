@@ -1,7 +1,7 @@
 "use client";
 import React, { useRef } from "react";
-import { useGetUser } from "@/utils/hooks/useGetUser";
-import { useCreatePost } from "@/utils/hooks/useCreatePost";
+import { useGetUser } from "@/utils/hooks/user/useGetUser";
+import { useCreatePost } from "@/utils/hooks/posts/useCreatePost";
 import { Paperclip } from "lucide-react";
 import Image from "next/image";
 

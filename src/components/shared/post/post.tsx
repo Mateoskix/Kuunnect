@@ -4,10 +4,10 @@ import { formatDate } from "@/utils/functions/formatDate";
 import { PostProps } from "@/utils/types";
 import { getImageUrl } from "@/utils/functions/getImageUrl";
 import ImageModal from "../imageModal/imageModal";
-import { useGetUser } from "@/utils/hooks/useGetUser";
+import { useGetUser } from "@/utils/hooks/user/useGetUser";
 import { Trash } from "lucide-react";
-import { useDeletePosts } from "@/utils/hooks/useDeletePosts";
-import { useGetComments } from "@/utils/hooks/useGetComments";
+import { useDeletePosts } from "@/utils/hooks/posts/useDeletePosts";
+import { useGetComments } from "@/utils/hooks/comments/useGetComments";
 import Comment from "./components/comment/comment";
 import CreateComment from "./components/createComment/createComment";
 

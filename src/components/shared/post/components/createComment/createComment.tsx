@@ -1,4 +1,4 @@
-import { useCreateComment } from "@/utils/hooks/useCreateComment";
+import { useCreateComment } from "@/utils/hooks/comments/useCreateComment";
 import React, { useEffect } from "react";
 
 interface CreateCommentProps {

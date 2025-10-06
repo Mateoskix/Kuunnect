@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { formatDate } from "@/utils/functions/formatDate";
 import { CommentProps } from "@/utils/types";
-import { useGetUser } from "@/utils/hooks/useGetUser";
+import { useGetUser } from "@/utils/hooks/user/useGetUser";
 import { Trash } from "lucide-react";
-import { useDeleteComment } from "@/utils/hooks/useDeleteComment";
+import { useDeleteComment } from "@/utils/hooks/comments/useDeleteComment";
 
 const Comment = ({ content, created_at, user_id, id, onCommentDeleted }: CommentProps) => {
   const user = useGetUser();
