@@ -28,7 +28,7 @@ const Post = ({ id, title, content, image = undefined, created_at, userId }: Pos
             <h3 className='text-lg font-light text-gray-900 leading-tight'>{title}</h3>
             <span className='text-sm text-gray-500 font-light'>{formatDate(created_at)}</span>
           </div>
-          <p className='text-gray-700 leading-relaxed'>{content}</p>
+          <p className='text-gray-700 leading-relaxed break-all'>{content}</p>
         </div>
       </div>
       
