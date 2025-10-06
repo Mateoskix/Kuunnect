@@ -7,23 +7,13 @@ interface CreateCommentProps {
 }
 
 const CreateComment = ({ post_id, onCommentCreated }: CreateCommentProps) => {
-  const { isLoading, success, createComment, setContent, setPostId, content } = useCreateComment();
+  const { isLoading, createComment, setContent, content } =
+    useCreateComment(post_id, onCommentCreated);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     createComment();
   };
-
-  useEffect(() => {
-    if (success) {
-      setContent("");
-      onCommentCreated();
-    }
-  }, [success, onCommentCreated, setContent]);
-
-  useEffect(() => {
-    setPostId(post_id);
-  }, [post_id, setPostId]);
 
   return (
     <div className="styled-box p-4 my-6 mx-4">

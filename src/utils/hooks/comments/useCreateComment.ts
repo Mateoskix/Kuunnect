@@ -1,20 +1,17 @@
 import { useState } from "react";
 import { createClient } from "@/utils/supabase/client";
 
-export const useCreateComment = () => {
+export const useCreateComment = (post_id: string, onSuccess?: () => void) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
   const [content, setContent] = useState("");
-  const [postId, setPostId] = useState("");
 
   const createComment = async () => {
     setIsLoading(true);
     setError(null);
-    setSuccess(false);
 
     try {
-      if (!postId) {
+      if (!post_id) {
         throw new Error("Post ID is required to create a comment");
       }
 
@@ -29,7 +26,7 @@ export const useCreateComment = () => {
 
       const { data, error } = await supabase
         .from("comments")
-        .insert({ post_id: postId, content: content.trim(), user_id: user?.id })
+        .insert({ post_id: post_id, content: content.trim(), user_id: user?.id })
         .select()
         .single();
 
@@ -38,7 +35,10 @@ export const useCreateComment = () => {
       }
 
       if (data) {
-        setSuccess(true);
+        if (onSuccess) {
+          onSuccess();
+          setContent("");
+        }
       }
     } catch (error) {
       setError(error as string);
@@ -50,10 +50,8 @@ export const useCreateComment = () => {
   return {
     isLoading,
     error,
-    success,
     createComment,
     content,
     setContent,
-    setPostId,
   };
 };
