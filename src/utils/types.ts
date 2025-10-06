@@ -15,4 +15,5 @@ export type CommentProps = {
     updated_at?: string;
     user_id: string;
     post_id: string;
+    onCommentDeleted?: () => void;
 }

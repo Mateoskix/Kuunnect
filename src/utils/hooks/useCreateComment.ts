@@ -27,8 +27,6 @@ export const useCreateComment = () => {
         throw new Error("You must be logged in to create a comment");
       }
 
-      console.log(postId);
-
       const { data, error } = await supabase
         .from("comments")
         .insert({ post_id: postId, content: content.trim(), user_id: user?.id })

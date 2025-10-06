@@ -74,7 +74,7 @@ const Post = ({
             <div className="border-t border-gray-200 pt-3">
               <div className="space-y-3">
                 {comments.map((comment) => (
-                  <Comment key={comment.id} {...comment} />
+                  <Comment key={comment.id} {...comment} onCommentDeleted={refetch} />
                 ))}
                 {hasMore && (
                   <button
