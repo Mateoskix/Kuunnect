@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) => request.cookies.set(name, value))
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
           supabaseResponse = NextResponse.next({
             request,
           })
@@ -31,21 +31,22 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Public routes that don't require authentication
-  const publicRoutes = ['/auth', '/error', '/', '/login']
+  const publicRoutes = ['/auth', '/error', '/login']
   const isPublicRoute = publicRoutes.some(route => 
     request.nextUrl.pathname.startsWith(route)
   )
 
-  // Allow public routes and home page (to view posts)
-  if (isPublicRoute || request.nextUrl.pathname === '/') {
+  if (request.nextUrl.pathname === '/') {
     return supabaseResponse
   }
 
-  // Redirect to login if trying to access protected routes without auth
+  if (isPublicRoute) {
+    return supabaseResponse
+  }
+
   if (!user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/login'
+    url.pathname = '/auth/login'
     return NextResponse.redirect(url)
   }
 
