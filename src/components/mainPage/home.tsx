@@ -51,7 +51,7 @@ const MainPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-16 p-4 max-w-7xl mx-auto">
+    <div className="grid grid-cols-1 gap-16 p-4 max-w-4xl mx-auto">
       <CreatePost onPostCreated={refetch} />
       {posts.map((post) => (
         <Post key={post.id} {...post} />
