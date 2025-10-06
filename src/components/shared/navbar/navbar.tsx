@@ -1,8 +1,6 @@
 "use client"
-import { useCurrentUserImage } from "@/utils/hooks/user/useCurrentUserImage";
-import React, { useState } from "react";
-import Image from "next/image";
-import { User, Menu, X, Home, Settings, LogOut, Orbit } from "lucide-react";
+import React from "react";
+import { Orbit } from "lucide-react";
 import Link from "next/link";
 import ProfileMenu from "./components/profileMenu/profileMenu";
 
