@@ -34,12 +34,13 @@ export const useGetComments = (postId: string, limit: number = 3): UseGetComment
       }
 
       if (data) {
+        const displayData = data.slice(0, limit);
         if (append) {
-          setComments((prevComments) => [...prevComments, ...data]);
+          setComments((prevComments) => [...prevComments, ...displayData]);
         } else {
-          setComments(data);
+          setComments(displayData);
         }
-        setHasMore(data.length === limit);
+        setHasMore(data.length > limit);
       }
 
     },

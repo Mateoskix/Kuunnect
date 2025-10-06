@@ -20,10 +20,9 @@ const Post = ({
   user_id,
 }: PostProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [showAllComments, setShowAllComments] = useState(false);
   const { success, deletePost } = useDeletePosts();
   const user = useGetUser();
-  const { comments, hasMore, loadMore, refetch } = useGetComments(id);
+  const { comments, hasMore, loadMore, refetch } = useGetComments(id, 3);
   useEffect(() => {
     if (success) {
       window.location.reload();
@@ -77,21 +76,9 @@ const Post = ({
                 {comments.map((comment) => (
                   <Comment key={comment.id} {...comment} />
                 ))}
-                
-                {showAllComments && (
+                {hasMore && (
                   <button
                     onClick={() => {
-                      setShowAllComments(false);
-                    }}
-                  >
-                    View Less Comments
-                  </button>
-                )}
-                
-                {hasMore && !showAllComments && (
-                  <button
-                    onClick={() => {
-                      setShowAllComments(true);
                       loadMore();
                     }}
                     className="w-full text-sm text-primary hover:text-secondary font-medium py-2 px-4 rounded-lg border border-gray-200 hover:border-primary transition-colors"
