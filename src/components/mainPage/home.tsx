@@ -56,8 +56,6 @@ const MainPage = () => {
       {posts.map((post) => (
         <Post key={post.id} {...post} />
       ))}
-      
-      {/* Infinite scroll trigger */}
       <div ref={observerRef} className="flex justify-center py-8">
         {isLoadingMore ? (
           <div className="text-lg">Loading more posts...</div>

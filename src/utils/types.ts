@@ -5,5 +5,5 @@ export type PostProps = {
     image?: string;
     created_at: string;
     updated_at?: string;
-    userId: string;
+    user_id: string;
 }

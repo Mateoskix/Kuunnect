@@ -20,7 +20,6 @@ const CreatePost = ({ onPostCreated }: CreatePostProps) => {
     setContent,
     isLoading,
     error,
-    success,
     createPost,
     image,
     setImage,
@@ -39,7 +38,7 @@ const CreatePost = ({ onPostCreated }: CreatePostProps) => {
   };
 
   if (!user) {
-    return <></>;
+    return null;
   }
 
   return (
@@ -71,10 +70,6 @@ const CreatePost = ({ onPostCreated }: CreatePostProps) => {
         
         {error && (
           <div className="text-red-500 text-sm">{error}</div>
-        )}
-        
-        {success && (
-          <div className="text-green-500 text-sm">Post created successfully!</div>
         )}
         
         <div className="flex flex-row justify-end gap-2">
