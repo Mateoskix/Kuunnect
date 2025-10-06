@@ -48,7 +48,7 @@ const Post = ({
         )}
         <div className="p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-light text-gray-900 leading-tight">
+            <h3 className="text-lg lg:w-[80%] w-[50%] font-light text-gray-900 leading-tight">
               {title}
               <span className="text-sm text-gray-500 font-light ml-2">
                 {profiles?.username}
