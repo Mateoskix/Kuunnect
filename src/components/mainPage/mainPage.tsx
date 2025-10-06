@@ -1,38 +1,18 @@
 "use client";
-import React, { useCallback, useEffect, useRef } from "react";
+import React from "react";
 import Post from "../shared/post/post";
 import CreatePost from "./components/createPost/createPost";
 import { useGetPosts } from "@/utils/hooks/posts/useGetPosts";
+import { useInfiniteScroll } from "@/utils/hooks/useInfiniteScroll";
+import BaseLayout from "../shared/baseLayout/baseLayout";
 
 const MainPage = () => {
   const { posts, isLoading, isLoadingMore, hasMore, loadMore, error, refetch } = useGetPosts(20);
-  const observerRef = useRef<HTMLDivElement>(null);
-
-  const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
-    const target = entries[0];
-    if (target.isIntersecting && hasMore && !isLoadingMore) {
-      loadMore();
-    }
-  }, [hasMore, isLoadingMore, loadMore]);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: '100px',
-      threshold: 0.1,
-    });
-
-    const currentRef = observerRef.current;
-    if (currentRef) {
-      observer.observe(currentRef);
-    }
-
-    return () => {
-      if (currentRef) {
-        observer.unobserve(currentRef);
-      }
-    };
-  }, [handleObserver]);
+  const { observerRef } = useInfiniteScroll({
+    hasMore,
+    isLoadingMore,
+    loadMore,
+  });
 
   if (isLoading) {
     return (
@@ -51,7 +31,7 @@ const MainPage = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-16 p-4 max-w-4xl mx-auto">
+    <BaseLayout>
       <CreatePost onPostCreated={refetch} />
       {posts.map((post) => (
         <Post key={post.id} {...post} />
@@ -65,7 +45,7 @@ const MainPage = () => {
           <div className="text-gray-500">No more posts to load</div>
         )}
       </div>
-    </div>
+    </BaseLayout>
   );
 };
 
