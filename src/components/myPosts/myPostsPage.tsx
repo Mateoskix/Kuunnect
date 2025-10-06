@@ -8,49 +8,25 @@ import BaseLayout from "../shared/baseLayout/baseLayout";
 
 const MyPostsPage = () => {
   const user = useGetUser();
-  const { posts, isLoading, isLoadingMore, hasMore, loadMore, error, refetch } = useGetUserPosts(user?.id || '', 20);
+  const { posts, isLoadingMore, hasMore, loadMore } = useGetUserPosts(
+    user?.id || ""
+  );
   const { observerRef } = useInfiniteScroll({
     hasMore,
     isLoadingMore,
     loadMore,
   });
 
-  if (!user) {
-    return (
-      <BaseLayout>
-        <div className="flex justify-center items-center min-h-96">
-          <div className="text-xl">Please log in to view your posts</div>
-        </div>
-      </BaseLayout>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <BaseLayout>
-        <div className="flex justify-center items-center min-h-96">
-          <div className="text-xl">Loading your posts...</div>
-        </div>
-      </BaseLayout>
-    );
-  }
-
-  if (error) {
-    return (
-      <BaseLayout>
-        <div className="flex justify-center items-center min-h-96">
-          <div className="text-red-500">Error loading posts: {error}</div>
-        </div>
-      </BaseLayout>
-    );
-  }
-
   return (
     <BaseLayout>
-      <h1 className="text-2xl font-bold mb-6">My Posts</h1>
+      <h1 className="lg:text-4xl text-2xl text-center text-primary font-bold lg:mb-6 mb-2">
+        My Posts
+      </h1>
       {posts.length === 0 ? (
         <div className="flex justify-center items-center min-h-96">
-          <div className="text-gray-500">You haven&apos;t created any posts yet</div>
+          <div className="text-gray-500">
+            You haven&apos;t created any posts yet
+          </div>
         </div>
       ) : (
         <>

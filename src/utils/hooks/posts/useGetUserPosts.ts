@@ -9,7 +9,6 @@ interface UseGetUserPostsResult {
   isLoadingMore: boolean;
   hasMore: boolean;
   loadMore: () => void;
-  refetch: () => void;
   error: string | null;
 }
 
@@ -74,5 +73,5 @@ export const useGetUserPosts = (userId: string, limit: number = 20): UseGetUserP
     fetchPosts(0, false);
   }, [fetchPosts]);
 
-  return { posts, isLoading, isLoadingMore, hasMore, loadMore, refetch, error };
+  return { posts, isLoading, isLoadingMore, hasMore, loadMore, error };
 };
