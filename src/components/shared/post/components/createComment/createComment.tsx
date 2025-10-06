@@ -7,7 +7,7 @@ interface CreateCommentProps {
 }
 
 const CreateComment = ({ post_id, onCommentCreated }: CreateCommentProps) => {
-  const { isLoading, error, success, createComment, setContent, setPostId, content } = useCreateComment();
+  const { isLoading, success, createComment, setContent, setPostId, content } = useCreateComment();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -17,10 +17,9 @@ const CreateComment = ({ post_id, onCommentCreated }: CreateCommentProps) => {
   useEffect(() => {
     if (success) {
       setContent("");
-      setPostId("");
       onCommentCreated();
     }
-  }, [success, onCommentCreated]);
+  }, [success, onCommentCreated, setContent]);
 
   useEffect(() => {
     setPostId(post_id);

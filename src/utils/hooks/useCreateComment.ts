@@ -14,6 +14,10 @@ export const useCreateComment = () => {
     setSuccess(false);
 
     try {
+      if (!postId) {
+        throw new Error("Post ID is required to create a comment");
+      }
+
       const supabase = createClient();
       const { data: { user }, error: userError } = await supabase.auth.getUser();
       if (userError) {

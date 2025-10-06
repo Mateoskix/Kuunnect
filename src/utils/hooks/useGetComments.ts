@@ -5,8 +5,6 @@ import { CommentProps } from "@/utils/types";
 
 interface UseGetCommentsResult {
   comments: CommentProps[];
-  isLoading: boolean;
-  isLoadingMore: boolean;
   hasMore: boolean;
   loadMore: () => void;
   refetch: () => void;
@@ -15,8 +13,6 @@ interface UseGetCommentsResult {
 
 export const useGetComments = (postId: string, limit: number = 3): UseGetCommentsResult => {
   const [comments, setComments] = useState<CommentProps[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,8 +30,6 @@ export const useGetComments = (postId: string, limit: number = 3): UseGetComment
 
       if (fetchError) {
         setError(fetchError.message);
-        setIsLoading(false);
-        setIsLoadingMore(false);
         return;
       }
 
@@ -48,8 +42,6 @@ export const useGetComments = (postId: string, limit: number = 3): UseGetComment
         setHasMore(data.length === limit);
       }
 
-      setIsLoading(false);
-      setIsLoadingMore(false);
     },
     [postId, limit]
   );
@@ -61,18 +53,16 @@ export const useGetComments = (postId: string, limit: number = 3): UseGetComment
   }, [postId, fetchComments]);
 
   const loadMore = useCallback(() => {
-    if (!isLoadingMore && hasMore) {
-      setIsLoadingMore(true);
+    if (hasMore) {
       fetchComments(comments.length, true);
     }
-  }, [isLoadingMore, hasMore, comments.length, fetchComments]);
+  }, [hasMore, comments.length, fetchComments]);
 
   const refetch = useCallback(() => {
     setComments([]);
-    setIsLoading(true);
     setHasMore(true);
     fetchComments(0, false);
   }, [fetchComments]);
 
-  return { comments, isLoading, isLoadingMore, hasMore, loadMore, refetch, error };
+  return { comments, hasMore, loadMore, refetch, error };
 };
